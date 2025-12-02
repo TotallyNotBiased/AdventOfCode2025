@@ -1,0 +1,14 @@
+/target/
+**/*.rs.bk
+debug/
+release/
+
+.direnv/
+
+result
+result-*
+
+cookie.txt
+
+input.txt
+**/input.txt
