@@ -4,14 +4,6 @@ use std::fs::File;
 use std::io::{BufRead, BufReader};
 use std::path::Path;
 
-// I will break down the problem in my own terms here:
-// We need to figure out how many times a register has read 0 after an arbitrary number of operations.
-// The register both overflows and underflows, wrapping around from 99 - 0 and vice versa.
-// This means that we want to use a loop structure. We will ingest the file line by line.
-// At each line, we should modify the register and then check if the register reads 0.
-// If it does, we should increment another register that keeps track of the amount of 0s that we have found.
-// Then we should print the output.
-
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let file_path = Path::new("./input.txt");
 
@@ -44,21 +36,20 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         }
 
         // before the euclid function, we can have a neg number
-        // or a number greater than 99, so we can see if we cross 0
+        // or a number greater than 99, so we can see if we have crossed 0
+        // we need to do additional checks for any special cases
+        // if, before rem_euclid equalization, we are at 0 or something that will be zero after,
+        // we have to handle it
 
-        // 
-
-        if register > 99 && register.rem_euclid(100) == 0 {
-            answer += (register.abs() / 100) - 1;
+        if register > 99 && register.rem_euclid(100) == 0 { // case: exact multiple of 100
+            answer += (register.abs() / 100) - 1; 
         } else if register > 99 {
             answer += register.abs() / 100;
-        } else if register < 0 && (register.rem_euclid(100) == 0 || hold == 0){
+        } else if register < 0 && (register.rem_euclid(100) == 0 || hold == 0){ // case: exact multiple of -100
             answer += register.abs() / 100;
         } else if register < 0 {
             answer += register.abs() / 100 + 1;
         }
-
-        
 
         register = register.rem_euclid(100); // the greatest mod function
 

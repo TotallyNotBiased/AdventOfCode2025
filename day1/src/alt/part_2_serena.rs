@@ -29,14 +29,9 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
         match command {
             'R' => register += amount,
-            'L' => { if register == 0 { answer -= 1 }; register -= amount;},
+            'L' => { if register == 0 { answer -= 1 }; register -= amount;}, // a small optimization
             _ => unreachable!("Input guaranteed to be R or L"),
         }
-
-        // before the euclid function, we can have a neg number
-        // or a number greater than 99, so we can see if we cross 0
-
-        // 
 
         if register > 99 && register.rem_euclid(100) == 0 {
             answer += (register.abs() / 100) - 1;
