@@ -1,4 +1,4 @@
-// Part 2 solution, using bitshifts and pattern matching.
+// Part 1 solution, using bitshifts and pattern matching.
 
 use std::error::Error;
 use std::fs;
