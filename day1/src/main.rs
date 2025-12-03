@@ -23,7 +23,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let mut register: i32 = 50; 
     let mut answer = 0;
-    let mut hold = 0;
+    let mut hold;
 
     for (command, amount) in parsed_data {
 
