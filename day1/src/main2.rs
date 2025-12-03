@@ -13,7 +13,7 @@ use std::path::Path;
 
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let file_path = Path::new("./input.txt");
+    let file_path = Path::new("./input1.txt");
 
     let file = File::open(file_path)?;
     let reader = BufReader::new(file);
@@ -37,9 +37,11 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
         hold = register;
 
+        if register 
+
         match command {
             'R' => register += amount,
-            'L' => register -= amount,
+            'L' => { if register == 0 { answer += register.abs()/100; } register -= amount;},
             _ => unreachable!("Input guaranteed to be R or L"),
         }
 

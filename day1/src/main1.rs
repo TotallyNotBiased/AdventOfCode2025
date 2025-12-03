@@ -31,34 +31,13 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let mut register: i32 = 50; 
     let mut answer = 0;
-    let mut hold = 0;
 
     for (command, amount) in parsed_data {
-
-        hold = register;
-
         match command {
             'R' => register += amount,
             'L' => register -= amount,
             _ => unreachable!("Input guaranteed to be R or L"),
         }
-
-        // before the euclid function, we can have a neg number
-        // or a number greater than 99, so we can see if we cross 0
-
-        // 
-
-        if register > 99 && register.rem_euclid(100) == 0 {
-            answer += (register.abs() / 100) - 1;
-        } else if register > 99 {
-            answer += register.abs() / 100;
-        } else if register < 0 && (register.rem_euclid(100) == 0 || hold == 0){
-            answer += register.abs() / 100;
-        } else if register < 0 {
-            answer += register.abs() / 100 + 1;
-        }
-
-        
 
         register = register.rem_euclid(100); // the greatest mod function
 
@@ -68,7 +47,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     }
 
     println!("Final Register: {}", register);
-    println!("Answer (Times zero hit including during rotation): {}", answer);
+    println!("Answer (Times zero hit): {}", answer);
 
     Ok(())
 }
