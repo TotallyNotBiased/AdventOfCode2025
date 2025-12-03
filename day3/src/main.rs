@@ -90,9 +90,9 @@ fn solution2(grid: &Array2<u32>) -> u64 {
                     best_digit = val;
                     best_relative_index = i;
                 }
-                // if val == 9 {
-                //     break;
-                // }
+                if val == 9 {
+                    break;
+                }
             }
 
             currentval = (currentval as u64 * 10) + best_digit as u64;
