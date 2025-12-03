@@ -13,7 +13,7 @@ use std::path::Path;
 
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let file_path = Path::new("./input1.txt");
+    let file_path = Path::new("./input.txt");
 
     let file = File::open(file_path)?;
     let reader = BufReader::new(file);
@@ -31,17 +31,12 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let mut register: i32 = 50; 
     let mut answer = 0;
-    let mut hold = 0;
 
     for (command, amount) in parsed_data {
 
-        hold = register;
-
-        if register 
-
         match command {
             'R' => register += amount,
-            'L' => { if register == 0 { answer += register.abs()/100; } register -= amount;},
+            'L' => { if register == 0 { answer -= 1 }; register -= amount;},
             _ => unreachable!("Input guaranteed to be R or L"),
         }
 
@@ -54,13 +49,11 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             answer += (register.abs() / 100) - 1;
         } else if register > 99 {
             answer += register.abs() / 100;
-        } else if register < 0 && (register.rem_euclid(100) == 0 || hold == 0){
+        } else if register < 0 && (register.rem_euclid(100) == 0) {
             answer += register.abs() / 100;
         } else if register < 0 {
             answer += register.abs() / 100 + 1;
         }
-
-        
 
         register = register.rem_euclid(100); // the greatest mod function
 
