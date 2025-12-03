@@ -1,3 +1,9 @@
+// First working solution to part 2
+
+use std::fs::File;
+use std::io::{BufRead, BufReader};
+use std::path::Path;
+
 // I will break down the problem in my own terms here:
 // We need to figure out how many times a register has read 0 after an arbitrary number of operations.
 // The register both overflows and underflows, wrapping around from 99 - 0 and vice versa.
@@ -5,12 +11,6 @@
 // At each line, we should modify the register and then check if the register reads 0.
 // If it does, we should increment another register that keeps track of the amount of 0s that we have found.
 // Then we should print the output.
-
-
-use std::fs::File;
-use std::io::{BufRead, BufReader};
-use std::path::Path;
-
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let file_path = Path::new("./input.txt");

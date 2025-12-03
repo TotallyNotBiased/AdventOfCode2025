@@ -6,6 +6,8 @@
 // If it does, we should increment another register that keeps track of the amount of 0s that we have found.
 // Then we should print the output.
 
+// Initial solution
+
 
 use std::fs::File;
 use std::io::{BufRead, BufReader};
