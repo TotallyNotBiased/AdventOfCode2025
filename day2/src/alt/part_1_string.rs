@@ -1,5 +1,5 @@
-// Approach 1: Throw out numbers that are easy to check (numbers with odd digits)
-// Approach 2: Check all numbers
+// Step 1: Throw out numbers that are easy to check (ranges with fully odd digits)
+// Step 2: Convert to string, split string in two, compare the two halves using &str's PartialEq
 
 use std::fs;
 use std::error::Error;
