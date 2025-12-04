@@ -1,8 +1,11 @@
 use std::error::Error;
 use std::fs::File;
 use std::io::{BufRead, BufReader};
-use ndarray::{Array2, s};
+
+use ndarray::{Array2, s, Zip};
 use std::cmp::min;
+use std::mem;
+
 
 fn is_adjacent_threshold(grid: &Array2<char>, center: (usize, usize), count: u8) -> bool {
     
@@ -51,7 +54,6 @@ fn is_adjacent_threshold(grid: &Array2<char>, center: (usize, usize), count: u8)
 fn solution1(grid: &Array2<char>) -> u32 {
     // iterate over the grid.
     // for each @ call is_adjacent_threshold() and if true then increment
-    //
 
     let mut total = 0;
 
@@ -59,6 +61,43 @@ fn solution1(grid: &Array2<char>) -> u32 {
         if value == &'@' {
             if is_adjacent_threshold(grid, (r, c), 4) { total += 1; }
         }
+    }
+
+    total
+}
+
+// conway's game of life solution
+
+fn solution2(grid: &Array2<char>) -> u32 {
+
+    let mut total = 0;
+    
+    let mut current = grid.clone();
+    let mut next = grid.clone();
+
+    loop {
+
+        let mut subtotal = 0;
+
+        Zip::indexed(&mut next)
+        .and(&current)
+        .for_each(|(row, col), next_cell, &current_cell| {
+
+            *next_cell = if is_adjacent_threshold(&current, (row, col), 4) {
+                '.'
+            } else {
+                current_cell
+            };
+
+            if *next_cell != current_cell {
+                subtotal += 1;
+            }
+        });
+
+        if subtotal == 0 { break; }
+        total += subtotal;
+
+        mem::swap(&mut current, &mut next)
     }
 
     total
@@ -89,6 +128,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     println!("Loaded grid: {:?}", grid.dim());
 
     println!("Solution 1 | Number of accessible rolls: {}", solution1(&grid));
+    println!("Solution 2 | Number of removable rolls: {}", solution2(&grid));
 
     Ok(())
 }
