@@ -1,4 +1,3 @@
-use core::num;
 use std::error::Error;
 use std::fs::File;
 use std::io::{BufRead, BufReader};
@@ -51,26 +50,37 @@ fn solution1(lines: &Vec<String>) -> u64 {
 fn solution2(lines: &Vec<String>) -> u64 {
     let mut total = 0;
 
-    let grid: Vec<Vec<char>> = lines
+    let (num_rows, op_row) = lines.split_at(lines.len() - 1);
+
+    let grid: Vec<Vec<char>> = num_rows
         .into_iter()
         .map(|s| s.chars().collect())
         .collect();
 
+    let raw_ops: Vec<char> = op_row[0]
+        .chars()
+        .collect();
+
     let num_columns = grid[0].len();
 
-    let mut intermediate_sum = 0;
+    let mut accumulator: u64 = 0;
+    let mut numstack: Vec<u64> = Vec::new();
 
     for col_idx in (0..num_columns).rev() {
         let column_values = grid.iter().map(|row| row[col_idx]);
 
-        let num = column_values
+        if column_values.clone().all(|x| x == ' ') { continue; }
+
+        let num: u64 = column_values
             .filter_map(|c| c.to_digit(10))
-            .fold(0, |acc, digit| acc * 10 + digit);
+            .fold(0, |acc, digit| acc * 10 + digit as u64);
 
-        
-                                                
-
-
+        match raw_ops[col_idx] {
+            '*' => { numstack.push(num); accumulator += numstack.iter().product::<u64>(); numstack.clear(); },
+            '+' => { numstack.push(num); accumulator += numstack.iter().sum::<u64>(); numstack.clear(); },
+            _ => { numstack.push(num); accumulator = 0;}
+        }
+        total += accumulator;
     }
 
     total
