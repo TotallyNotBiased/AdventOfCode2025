@@ -138,7 +138,9 @@ fn solution2(data: Vec<(u64, u64)>) -> u64 {
         grid.place_point(point.0 as usize, point.1 as usize, '#');
     }
 
-    grid.visualize("Advent of Code Day 9", 2, |val| { 
+    grid.trim();
+
+    grid.visualize("Advent of Code Day 9", 64, |val| { 
         let mut r = 0;
         let mut g = 0;
         let mut b = 0;
@@ -152,7 +154,7 @@ fn solution2(data: Vec<(u64, u64)>) -> u64 {
 }
 
 fn main() -> Result<(), Box< dyn Error>> {
-    let reader = BufReader::new(File::open("./input.txt")?);
+    let reader = BufReader::new(File::open("./input_test.txt")?);
 
     let parsed_data: Vec<(u64, u64)> = reader.lines()
         .map(|a|a.unwrap().split_once(',').and_then(|(str_a, str_b)| {
