@@ -18,23 +18,32 @@
       {
         devShells.default = pkgs.mkShell {
           buildInputs = with pkgs; [
-            # Select latest stable Rust with vital extensions
             (rust-bin.stable.latest.default.override {
               extensions = [ "rust-src" "rust-analyzer" ];
             })
 
-            # Essential tools
             pkg-config
-            openssl # Often needed if you use 'reqwest' or web crates
+            openssl 
             
-            # AoC Quality of Life
-            cargo-watch # Re-runs code when you save: cargo watch -x run
-            cargo-edit  # Adds commands like: cargo add serde
+            cargo-watch 
+            cargo-edit
+
+            xorg.libX11
+            xorg.libXcursor
+            xorg.libXrandr
+            xorg.libXi
+            libxkbcommon
           ];
 
-          # Environment variables to help tools find the SSL certs
           shellHook = ''
             export PKG_CONFIG_PATH="${pkgs.openssl.dev}/lib/pkgconfig";
+            export LD_LIBRARY_PATH=${pkgs.lib.makeLibraryPath [
+              pkgs.xorg.libX11
+              pkgs.xorg.libXcursor
+              pkgs.xorg.libXrandr
+              pkgs.xorg.libXi
+              pkgs.libxkbcommon
+            ]}:$LD_LIBRARY_PATH
           '';
         };
       }
